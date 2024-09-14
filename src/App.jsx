@@ -1,26 +1,67 @@
 import { useState } from 'react'
-import { Menu, CreditCard, PlusCircle, Globe, FileText, ArrowLeftRight, Percent, Gamepad2 } from 'lucide-react'
+import { Menu, CreditCard, PlusCircle, Globe, FileText, ArrowLeftRight, Percent, Gamepad2, ChevronLeft, Phone, Wifi } from 'lucide-react'
 
-export default function Dashboard() {
-  const [currentTime, setCurrentTime] = useState('11:03')
-  const [batteryLevel, setBatteryLevel] = useState('23')
+function AirtimeView({ onBack }) {
+  const [selectedOption, setSelectedOption] = useState('airtime')
 
   return (
-    <div className="max-w-md mx-auto bg-gray-100 h-screen overflow-y-auto">
-      {/* Status Bar */}
-      <div className="flex justify-between items-center px-4 py-2 bg-white">
-        <span className="font-bold">{currentTime}</span>
-        <div className="flex items-center space-x-1">
-          <span className="font-bold">5G</span>
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 19H17V8H7V19ZM9 10H15V17H9V10Z" fill="currentColor" />
-            <path d="M8 5H16V7H8V5Z" fill="currentColor" />
-          </svg>
-          <span>{batteryLevel}%</span>
-        </div>
+    <div className="max-w-md mx-auto bg-white min-h-screen p-4">
+      <div className="flex items-center mb-6">
+        <button onClick={onBack} className="text-purple-700 mr-4">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold">Buy Airtime</h1>
       </div>
 
-      {/* Menu Button */}
+      <div className="flex rounded-full bg-gray-200 p-1 mb-6">
+        <button className="flex-1 rounded-full py-2 px-4 bg-purple-600 text-white font-semibold">Recharge</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">Upcoming</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">History</button>
+      </div>
+
+      <p className="text-lg mb-4">What would you like to do? *</p>
+
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <label className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <Phone className="text-purple-600 mr-3" size={24} />
+            <span className="text-lg">Airtime</span>
+          </div>
+          <input
+            type="radio"
+            name="option"
+            value="airtime"
+            checked={selectedOption === 'airtime'}
+            onChange={() => setSelectedOption('airtime')}
+            className="form-radio h-5 w-5 text-purple-600"
+          />
+        </label>
+        <label className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Wifi className="text-purple-600 mr-3" size={24} />
+            <span className="text-lg">Data</span>
+          </div>
+          <input
+            type="radio"
+            name="option"
+            value="data"
+            checked={selectedOption === 'data'}
+            onChange={() => setSelectedOption('data')}
+            className="form-radio h-5 w-5 text-purple-600"
+          />
+        </label>
+      </div>
+
+      <button className="w-full bg-purple-600 text-white font-semibold py-3 rounded-full">
+        Recharge
+      </button>
+    </div>
+  )
+}
+
+function Dashboard({ onAirtimeClick }) {
+  return (
+    <div className="max-w-md mx-auto bg-gray-100 min-h-screen p-4">
       <div className="p-4">
         <button className="flex items-center space-x-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-lg">
           <Menu size={24} />
@@ -28,16 +69,13 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Dashboard Title */}
       <h1 className="text-3xl font-bold px-4 mt-4 mb-6">Dashboard</h1>
 
-      {/* Limit Upgraded Section */}
       <div className="mx-4 bg-purple-400 rounded-full flex items-center overflow-hidden">
         <div className="bg-purple-600 py-3 px-6 text-white font-semibold">Limit Upgraded</div>
         <div className="flex-grow text-center py-3 text-white font-semibold">Manage Limits</div>
       </div>
 
-      {/* Account Card */}
       <div className="mx-4 mt-6 bg-purple-700 rounded-xl p-4 text-white shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <span className="font-bold">FCMB</span>
@@ -56,13 +94,11 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Card Indicators */}
       <div className="flex justify-center mt-4 space-x-2">
         <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
         <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
       </div>
 
-      {/* Action Cards */}
       <div className="grid grid-cols-2 gap-4 mx-4 mt-6">
         <div className="bg-white p-4 rounded-xl shadow">
           <div className="flex items-center space-x-2 mb-2">
@@ -80,7 +116,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Expense Tracker */}
       <div className="mx-4 mt-6 bg-white rounded-xl overflow-hidden shadow">
         <div className="flex">
           <div className="w-1/2">
@@ -94,9 +129,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-between items-center px-4 py-2">
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" onClick={onAirtimeClick}>
           <CreditCard className="text-yellow-500" size={24} />
           <span className="text-xs mt-1">Airtime</span>
         </button>
@@ -118,5 +152,19 @@ export default function Dashboard() {
         </button>
       </div>
     </div>
+  )
+}
+
+export default function App() {
+  const [currentView, setCurrentView] = useState('dashboard')
+
+  return (
+    <>
+      {currentView === 'dashboard' ? (
+        <Dashboard onAirtimeClick={() => setCurrentView('airtime')} />
+      ) : (
+        <AirtimeView onBack={() => setCurrentView('dashboard')} />
+      )}
+    </>
   )
 }
