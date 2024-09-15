@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Menu, CreditCard, PlusCircle, Globe, FileText, ArrowLeftRight, Percent, Gamepad2, ChevronLeft, Phone, Wifi } from 'lucide-react'
+import { Menu, CreditCard, PlusCircle, Globe, FileText, ArrowLeftRight, Percent, Gamepad2, ChevronLeft, Phone, Wifi, Users, Building, Search, Plus } from 'lucide-react'
 
 function AirtimeView({ onBack }) {
   const [selectedOption, setSelectedOption] = useState('airtime')
@@ -59,7 +59,135 @@ function AirtimeView({ onBack }) {
   )
 }
 
-function Dashboard({ onAirtimeClick }) {
+function TransfersView({ onBack }) {
+  return (
+    <div className="max-w-md mx-auto bg-white min-h-screen p-4">
+      <div className="flex items-center mb-6">
+        <button onClick={onBack} className="text-purple-700 mr-4">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold">Transfer Money</h1>
+      </div>
+
+      <div className="flex rounded-full bg-gray-200 p-1 mb-6">
+        <button className="flex-1 rounded-full py-2 px-4 bg-purple-600 text-white font-semibold">Transfer</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">Upcoming</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">History</button>
+      </div>
+
+      <p className="text-lg mb-4">Send Money *</p>
+
+      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <label className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <Users className="text-purple-600 mr-3" size={24} />
+            <span className="text-lg">To FCMB Account</span>
+          </div>
+          <input
+            type="radio"
+            name="transferOption"
+            value="fcmb"
+            className="form-radio h-5 w-5 text-purple-600"
+          />
+        </label>
+        <label className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Building className="text-purple-600 mr-3" size={24} />
+            <span className="text-lg">To Other Banks</span>
+          </div>
+          <input
+            type="radio"
+            name="transferOption"
+            value="otherBanks"
+            className="form-radio h-5 w-5 text-purple-600"
+          />
+        </label>
+      </div>
+
+      <p className="text-center text-gray-600 mb-6">Show More</p>
+
+      <button className="w-full bg-purple-600 text-white font-semibold py-3 rounded-full">
+        Make Transfer
+      </button>
+    </div>
+  )
+}
+
+function PayBillsView({ onBack }) {
+  return (
+    <div className="max-w-md mx-auto bg-white min-h-screen p-4">
+      <div className="flex items-center mb-6">
+        <button onClick={onBack} className="text-purple-700 mr-4">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold">Bill Payment</h1>
+        <Search className="ml-auto text-purple-700" size={24} />
+      </div>
+
+      <div className="flex rounded-full bg-gray-200 p-1 mb-6">
+        <button className="flex-1 rounded-full py-2 px-4 bg-purple-600 text-white font-semibold">Categories</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">Upcoming</button>
+        <button className="flex-1 rounded-full py-2 px-4 text-gray-700 font-semibold">History</button>
+      </div>
+
+      <div className="mb-6">
+        <h2 className="text-purple-600 font-semibold mb-2">Popular Categories</h2>
+        <div className="bg-white rounded-lg shadow-md">
+          {['DSTV', 'Bet9ja', 'Quickteller'].map((item, index) => (
+            <div key={index} className="p-4 flex justify-between items-center border-b last:border-b-0">
+              <span>{item}</span>
+              <ChevronLeft className="transform rotate-180" size={20} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="text-purple-600 font-semibold mb-2">Other Categories</h2>
+        <div className="bg-white rounded-lg shadow-md">
+          {['Church Collections', 'Betting and Lottery', 'Electricity Payments'].map((item, index) => (
+            <div key={index} className="p-4 flex justify-between items-center border-b last:border-b-0">
+              <span>{item}</span>
+              <ChevronLeft className="transform rotate-180" size={20} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LoansView({ onBack }) {
+  const loanOptions = [
+    { name: 'FastCash Loan', icon: CreditCard },
+    { name: 'Airtime Loan', icon: Phone },
+    { name: 'Salary Plus Loan', icon: Plus },
+    { name: 'Secured Overdraft', icon: FileText },
+    { name: 'Buy Now Pay Later', icon: Globe },
+  ]
+
+  return (
+    <div className="max-w-md mx-auto bg-white min-h-screen p-4">
+      <div className="flex items-center mb-6">
+        <button onClick={onBack} className="text-purple-700 mr-4">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold">Loans</h1>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        {loanOptions.map((option, index) => (
+          <div key={index} className="bg-white p-4 rounded-xl shadow-md flex flex-col items-center justify-center">
+            <option.icon className="text-purple-600 mb-2" size={40} />
+            <span className="text-center font-semibold">{option.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Dashboard({ onNavClick }) {
   return (
     <div className="max-w-md mx-auto bg-gray-100 min-h-screen p-4">
       <div className="p-4">
@@ -119,7 +247,7 @@ function Dashboard({ onAirtimeClick }) {
       <div className="mx-4 mt-6 bg-white rounded-xl overflow-hidden shadow">
         <div className="flex">
           <div className="w-1/2">
-            <img src="/placeholder.svg?height=100&width=180" alt="Expense tracker illustration" className="w-full h-full object-cover" />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsXum0xSYruvNv3gnXq8iGyex8hKl_JHYApw&s" alt="Expense tracker illustration" className="w-full h-full object-cover" />
           </div>
           <div className="w-1/2 p-4 bg-gray-800 text-white">
             <h3 className="font-semibold mb-2">See your money trail</h3>
@@ -130,19 +258,19 @@ function Dashboard({ onAirtimeClick }) {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-between items-center px-4 py-2">
-        <button className="flex flex-col items-center" onClick={onAirtimeClick}>
+        <button className="flex flex-col items-center" onClick={() => onNavClick('airtime')}>
           <CreditCard className="text-yellow-500" size={24} />
           <span className="text-xs mt-1">Airtime</span>
         </button>
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" onClick={() => onNavClick('payBills')}>
           <FileText className="text-yellow-500" size={24} />
           <span className="text-xs mt-1">Pay Bills</span>
         </button>
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" onClick={() => onNavClick('transfers')}>
           <ArrowLeftRight className="text-yellow-500" size={24} />
           <span className="text-xs mt-1">Transfer</span>
         </button>
-        <button className="flex flex-col items-center">
+        <button className="flex flex-col items-center" onClick={() => onNavClick('loans')}>
           <Percent className="text-yellow-500" size={24} />
           <span className="text-xs mt-1">Loans</span>
         </button>
@@ -158,13 +286,21 @@ function Dashboard({ onAirtimeClick }) {
 export default function App() {
   const [currentView, setCurrentView] = useState('dashboard')
 
+  const handleNavClick = (view) => {
+    setCurrentView(view)
+  }
+
+  const handleBack = () => {
+    setCurrentView('dashboard')
+  }
+
   return (
     <>
-      {currentView === 'dashboard' ? (
-        <Dashboard onAirtimeClick={() => setCurrentView('airtime')} />
-      ) : (
-        <AirtimeView onBack={() => setCurrentView('dashboard')} />
-      )}
+      {currentView === 'dashboard' && <Dashboard onNavClick={handleNavClick} />}
+      {currentView === 'airtime' && <AirtimeView onBack={handleBack} />}
+      {currentView === 'transfers' && <TransfersView onBack={handleBack} />}
+      {currentView === 'payBills' && <PayBillsView onBack={handleBack} />}
+      {currentView === 'loans' && <LoansView onBack={handleBack} />}
     </>
   )
 }
